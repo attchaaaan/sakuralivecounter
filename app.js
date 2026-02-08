@@ -2189,9 +2189,9 @@ const lives = [
     14  // 櫻坂の詩（EN4）
   ]
 },{
-  id: "20240626",
+  id: "20240616",
   name: "4th ARENA TOUR 2024 新・櫻前線 -Go on back?-(東京)",
-  date: "2024-06-26",
+  date: "2024-06-16",
   venue: "東京ドーム",
 
   setlist: [
