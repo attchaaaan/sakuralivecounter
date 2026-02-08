@@ -3544,8 +3544,9 @@ function update() {
   const parts = [`<div class="part all">${escapeHtml(allLine)}</div>`, ...yearLines.map((y) => `<div class="part year">${escapeHtml(y)}</div>`)];
   participationEl.innerHTML = `<div class="row"><div class="label">参加率</div><div class="value">${parts.join("")}</div></div>`;
 
-  // songId -> count
+  // songId -> count と songId -> lastDate
   const counts = new Map();
+  const lastDate = new Map();
 
   for (const live of selectedLives) {
     for (const songId of live.setlist) {
@@ -3553,6 +3554,10 @@ function update() {
       if (!songs[songId]) continue;
 
       counts.set(songId, (counts.get(songId) ?? 0) + 1);
+      // 最後の日付を更新（後のライブが新しい日付を上書き）
+      if (live.date) {
+        lastDate.set(songId, live.date);
+      }
     }
   }
 
@@ -3566,7 +3571,8 @@ function update() {
   resultBodyEl.innerHTML = rows
     .map(([songId, n]) => {
       const name = songs[songId].name;
-      return `<tr><td>${escapeHtml(name)}</td><td>${n}</td></tr>`;
+      const date = lastDate.get(songId) ?? "";
+      return `<tr><td>${escapeHtml(name)}</td><td>${n}</td><td>${escapeHtml(date)}</td></tr>`;
     })
     .join("");
 
