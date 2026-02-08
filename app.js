@@ -38,6 +38,10 @@ const liveListEl = document.getElementById("liveList");
 const resultBodyEl = document.getElementById("resultBody");
 const summaryEl = document.getElementById("summary");
 const clearBtn = document.getElementById("clearBtn");
+const setlistModal = document.getElementById("setlistModal");
+const modalTitle = document.getElementById("modalTitle");
+const modalSetlist = document.getElementById("modalSetlist");
+const modalCloseBtn = document.getElementById("modalCloseBtn");
 
 // =====================
 // 3) ライブ一覧を描画
@@ -46,6 +50,9 @@ function renderLiveList() {
   liveListEl.innerHTML = "";
 
   for (const live of lives) {
+    const row = document.createElement("div");
+    row.className = "live-row";
+
     const label = document.createElement("label");
 
     const cb = document.createElement("input");
@@ -53,15 +60,24 @@ function renderLiveList() {
     cb.value = live.id;
     cb.addEventListener("change", update);
 
-    const span = document.createElement("span");
-    span.textContent = live.name;
+    const name = document.createElement("span");
+    name.textContent = live.name;
 
     label.appendChild(cb);
-    label.appendChild(span);
+    label.appendChild(name);
 
-    liveListEl.appendChild(label);
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.textContent = "セトリ表示";
+    btn.addEventListener("click", () => openSetlistModal(live));
+
+    row.appendChild(label);
+    row.appendChild(btn);
+
+    liveListEl.appendChild(row);
   }
 }
+
 
 // =====================
 // 4) 集計して表示
@@ -129,6 +145,36 @@ function escapeHtml(str) {
     return map[c];
   });
 }
+
+function openSetlistModal(live) {
+  modalTitle.textContent = `${live.name} のセットリスト`;
+
+  // setlist: songId配列 -> 表示名へ
+  const items = live.setlist
+    .filter((songId) => songs[songId])
+    .map((songId) => songs[songId].name);
+
+  modalSetlist.innerHTML = items
+    .map((name) => `<li>${escapeHtml(name)}</li>`)
+    .join("");
+
+  // <dialog> を表示
+  if (typeof setlistModal.showModal === "function") {
+    setlistModal.showModal();
+  } else {
+    // 万が一dialog非対応なら、開いたフラグだけでも（必要なら別方式に変更可能）
+    setlistModal.setAttribute("open", "");
+  }
+}
+
+// 閉じる
+modalCloseBtn.addEventListener("click", () => setlistModal.close());
+
+// Escで閉じた後の後始末（任意）
+setlistModal.addEventListener("close", () => {
+  modalSetlist.innerHTML = "";
+});
+
 
 // 初期化
 renderLiveList();
