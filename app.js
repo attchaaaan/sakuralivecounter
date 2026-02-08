@@ -56,7 +56,10 @@ const participationEl = document.getElementById("participation");
 function renderLiveList() {
   liveListEl.innerHTML = "";
 
-  for (const live of lives) {
+  // 日付（id: YYYYMMDD）で新しい順に並べ替えて表示
+  const sortedLives = Array.from(lives).sort((a, b) => String(b.id).localeCompare(String(a.id)));
+
+  for (const live of sortedLives) {
     const row = document.createElement("div");
     row.className = "live-row";
 
