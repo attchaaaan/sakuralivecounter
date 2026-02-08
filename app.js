@@ -133,8 +133,23 @@ const songs = {
 
 // ライブ：setlist は songId の配列にする（表記揺れ対策）
 const lives = [
+{
+  id: "20201208",
+  name: "櫻坂46 デビューカウントダウンライブ!!",
+  date: "2020-12-08",
+  venue: "東京国際フォーラムより、日本全国の映画館に生中継",
+  setlist: [
+    1, // Nobody's fault
+    7, // ブルームーンキス
+    3, // 最終の地下鉄に乗って
+    4, // Plastic regret
+    2, // なぜ 恋をして来なかったんだろう？
+    5, // 半信半疑
+    6, // Buddies
+    14 // 櫻坂の詩
+  ]
+},{
   // 櫻坂46「BACKS LIVE!!」2021/06/16 @舞浜アンフィシアター
-  {
   id: "20210616",
   name: "BACKS LIVE!!",
   date: "2021-06-16",
@@ -3443,7 +3458,7 @@ const modalTitle = document.getElementById("modalTitle");
 const modalSetlist = document.getElementById("modalSetlist");
 const modalCloseBtn = document.getElementById("modalCloseBtn");
 const participationEl = document.getElementById("participation");
- 
+
 
 // =====================
 // 3) ライブ一覧を描画
