@@ -108,26 +108,118 @@ const songs = {
 
 // ライブ：setlist は songId の配列にする（表記揺れ対策）
 const lives = [
+  // 櫻坂46「BACKS LIVE!!」2021/06/16 @舞浜アンフィシアター
   {
-    id: "20240101",
-    name: "2024/01/01 東京ドーム",
-    setlist: ["s_over", "s_a"],
-  },
-  {
-    id: "20240310",
-    name: "2024/03/10 大阪城ホール",
-    setlist: ["s_over", "s_b"],
-  },
-  {
-    id: "20240620",
-    name: "2024/06/20 名古屋",
-    setlist: ["s_c", "s_e"],
-  },
-  {
-    id: "20230620",
-    name: "2023/06/20 名古屋",
-    setlist: ["s_c", "s_e"],
-  },
+  id: "20210616",
+  name: "BACKS LIVE!! DAY1",
+  date: "2021-06-16",
+  venue: "舞浜アンフィシアター",
+  // MC / VTR / ダンストラック等は除外して、曲のみ
+  setlist: [
+    5,  // 半信半疑
+    7,  // ブルームーンキス
+    13, // 思ったよりも寂しくない
+    29, // Overture
+    12, // Microscope
+    9,  // 偶然の答え
+    11, // 君と僕と洗濯物
+    1,  // Nobody’s fault
+    3,  // 最終の地下鉄に乗って
+    4,  // Plastic regret
+    10, // それが愛なのね
+    2,  // なぜ　恋をして来なかったんだろう？
+    6,  // Buddies
+    8,  // BAN
+    14, // 櫻坂の詩（Encore #1）
+    1   // Nobody’s fault（Encore #2）
+  ]
+},{
+  id: "20210617",
+  name: "BACKS LIVE!! DAY2",
+  date: "2021-06-17",
+  venue: "舞浜アンフィシアター",
+  setlist: [
+    5,  // 半信半疑
+    7,  // ブルームーンキス
+    13, // 思ったよりも寂しくない
+    29, // Overture
+    12, // Microscope
+    9,  // 偶然の答え
+    11, // 君と僕と洗濯物
+    1,  // Nobody’s fault
+    3,  // 最終の地下鉄に乗って
+    4,  // Plastic regret
+    10, // それが愛なのね
+    2,  // なぜ　恋をして来なかったんだろう？
+    6,  // Buddies
+    8,  // BAN
+    14, // 櫻坂の詩（Encore #1）
+    6   // Buddies（Encore #2）
+  ]
+},{
+  id: "20210618",
+  name: "BACKS LIVE!! DAY3",
+  date: "2021-06-18",
+  venue: "舞浜アンフィシアター",
+  setlist: [
+    9,  // 偶然の答え
+    1,  // Nobody’s fault
+    11, // 君と僕と洗濯物
+    12, // Microscope
+    5,  // 半信半疑
+    29, // Overture
+    4,  // Plastic regret
+    7,  // ブルームーンキス
+    3,  // 最終の地下鉄に乗って
+    13, // 思ったよりも寂しくない
+    10, // それが愛なのね
+    2,  // なぜ　恋をして来なかったんだろう？
+    6,  // Buddies
+    8,  // BAN
+    14, // 櫻坂の詩（Encore #1）
+    8   // BAN（Encore #2）
+  ]
+},{
+  id: "20210709",
+  name: "W-KEYAKI FES.2021 DAY1",
+  date: "2021-07-09",
+  venue: "富士急ハイランド コニファーフォレスト",
+  setlist: [
+    9,  // 偶然の答え
+    1,  // Nobody’s fault
+    3,  // 最終の地下鉄に乗って
+    11, // 君と僕と洗濯物
+    5,  // 半信半疑
+    29, // Overture
+    12, // Microscope
+    4,  // Plastic regret
+    13, // 思ったよりも寂しくない
+    7,  // ブルームーンキス
+    10, // それが愛なのね
+    2,  // なぜ　恋をして来なかったんだろう？
+    6,  // Buddies
+    8,  // BAN
+    14  // 櫻坂の詩
+  ]
+},{
+  id: "20210711",
+  name: "W-KEYAKI FES.2021 DAY3",
+  date: "2021-07-11",
+  venue: "富士急ハイランド コニファーフォレスト",
+  setlist: [
+    10, // それが愛なのね
+    2,  // なぜ　恋をして来なかったんだろう？
+    11, // 君と僕と洗濯物
+    4,  // Plastic regret
+    7,  // ブルームーンキス
+    13, // 思ったよりも寂しくない
+    1,  // Nobody’s fault
+    6,  // Buddies
+    8,  // BAN
+    14, // 櫻坂の詩
+  ]
+}
+
 
 ];
 
