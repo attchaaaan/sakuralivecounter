@@ -10,14 +10,20 @@
   <h1>ライブ曲回数カウンター</h1>
   <p class="muted">ライブを選ぶと、披露曲の回数を自動集計します（曲ID管理）。</p>
 
+  <!-- スマホ用タブ -->
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="live">ライブ選択</button>
+    <button class="tab-btn" data-tab="result">集計結果</button>
+  </div>
+
   <div class="wrap">
-    <div class="card">
+    <div class="card tab-pane active" id="live-pane">
       <h2>ライブ選択</h2>
       <div id="liveList" class="list"></div>
       <button id="clearBtn" type="button">選択を全解除</button>
     </div>
 
-    <div class="card">
+    <div class="card tab-pane" id="result-pane">
       <h2>集計結果 <span id="summary" class="pill"></span></h2>
       <div id="participation" class="participation"></div>
       <div class="table-wrap">

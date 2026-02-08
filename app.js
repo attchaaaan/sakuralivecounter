@@ -421,6 +421,29 @@ function getYearFromLive(live) {
   return String(live.id).slice(0, 4);
 }
 
+// =====================
+// 7) タブ切り替え機能（スマホ用）
+// =====================
+function switchTab(tabName) {
+  // すべてのタブボタンと対応するペインをリセット
+  document.querySelectorAll(".tab-btn").forEach((btn) => {
+    btn.classList.remove("active");
+  });
+  document.querySelectorAll(".tab-pane").forEach((pane) => {
+    pane.classList.remove("active");
+  });
+
+  // 選択されたタブをアクティブに
+  document.querySelector(`[data-tab="${tabName}"]`).classList.add("active");
+  document.getElementById(`${tabName}-pane`).classList.add("active");
+}
+
+// タブボタンのイベントリスナー
+document.querySelectorAll(".tab-btn").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    switchTab(e.target.dataset.tab);
+  });
+});
 
 // 初期化
 renderLiveList();
