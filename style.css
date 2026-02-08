@@ -124,6 +124,17 @@ label {
   line-height: 1.35;
 }
 
+.live-date {
+  color: #666;
+  font-size: 13px;
+  width: 120px;
+  flex: 0 0 120px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* ボタン */
 button {
   margin-top: 10px;
@@ -220,7 +231,7 @@ th {
 
 .setlist {
   margin: 0;
-  padding-left: 20px;
+  padding-left: 40px;
   max-height: 55vh;
   overflow: auto;
 }
@@ -262,29 +273,18 @@ th {
 }
 
 .participation .value {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  flex-wrap: nowrap; /* デフォルトは改行しない */
+  display: block;
 }
 
-.participation .value .all {
+.participation .value .part {
+  margin: 6px 0;
+  color: #666;
   font-variant-numeric: tabular-nums;
 }
 
-.participation .value .year {
-  white-space: nowrap; /* 年表示自体は改行しない */
-}
-
-/* 小さい画面では年ごとに改行する */
-@media (max-width: 600px) {
-  .participation .value {
-    flex-wrap: wrap;
-  }
-  .participation .value .year {
-    display: block; /* 各年を別行にする */
-    width: 100%;
-  }
+.participation .value .part.all {
+  font-weight: 600;
+  color: #333;
 }
 
 /* 参加率ラベルの強調 */
