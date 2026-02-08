@@ -127,17 +127,13 @@ function update() {
 
   const allLine = `all: ${participatedLives} / ${totalLives} (${formatRate(participatedLives, totalLives)} %)`;
 
-  const lines = [
-    `<div class="row"><div class="label">参加率</div><div class="value">${escapeHtml(allLine)}</div></div>`,
-    ...yearRows
-      .filter(([year]) => year !== "unknown") // unknownも出したければこの行を消す
-      .map(([year, v]) => {
-        const line = `${year}: ${v.participated} / ${v.total} (${formatRate(v.participated, v.total)} %)`;
-        return `<div class="row"><div class="label">${escapeHtml(year)}</div><div class="value">${escapeHtml(line)}</div></div>`;
-      }),
-  ];
+  // 表示要素を分割してレスポンシブに制御できるようにする
+  const yearLines = yearRows
+    .filter(([year]) => year !== "unknown")
+    .map(([year, v]) => `${year}: ${v.participated} / ${v.total} (${formatRate(v.participated, v.total)} %)`);
 
-  participationEl.innerHTML = lines.join("");
+  const parts = [`<span class="all">${escapeHtml(allLine)}</span>`, ...yearLines.map((y) => `<span class="year">${escapeHtml(y)}</span>`)];
+  participationEl.innerHTML = `<div class="row"><div class="label">参加率</div><div class="value">${parts.join("")}</div></div>`;
 
   // songId -> count
   const counts = new Map();

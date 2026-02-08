@@ -197,19 +197,46 @@ th {
 }
 
 .participation {
-  margin: 10px 0 12px;
-  padding: 10px;
+  margin: 10px 0 16px;
+  padding: 12px 10px 14px;
   border: 1px solid #eee;
   border-radius: 12px;
   background: #fafafa;
-  font-size: 13px;
+  font-size: 14px; /* 文字を少し大きくする */
   line-height: 1.6;
+  border-bottom: 1px solid #e6e6e6; /* 区切り線 */
 }
 
-.participation .row {
+.participation .value {
   display: flex;
-  gap: 10px;
-  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: nowrap; /* デフォルトは改行しない */
+}
+
+.participation .value .all {
+  font-variant-numeric: tabular-nums;
+}
+
+.participation .value .year {
+  white-space: nowrap; /* 年表示自体は改行しない */
+}
+
+/* 小さい画面では年ごとに改行する */
+@media (max-width: 600px) {
+  .participation .value {
+    flex-wrap: wrap;
+  }
+  .participation .value .year {
+    display: block; /* 各年を別行にする */
+    width: 100%;
+  }
+}
+
+/* 参加率ラベルの強調 */
+.participation .label {
+  font-weight: 600;
+  font-size: 14px;
 }
 
 .participation .label {
