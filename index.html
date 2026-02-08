@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ライブ曲回数カウンター</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <h1>ライブ曲回数カウンター</h1>
+  <p class="muted">ライブを選ぶと、披露曲の回数を自動集計します（曲ID管理）。</p>
+
+  <div class="wrap">
+    <div class="card">
+      <h2>ライブ選択</h2>
+      <div id="liveList" class="list"></div>
+      <button id="clearBtn" type="button">選択を全解除</button>
+    </div>
+
+    <div class="card">
+      <h2>集計結果 <span id="summary" class="pill"></span></h2>
+      <table>
+        <thead>
+          <tr><th>曲名</th><th>回数</th></tr>
+        </thead>
+        <tbody id="resultBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>

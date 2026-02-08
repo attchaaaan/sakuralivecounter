@@ -1,0 +1,82 @@
+body {
+  font-family: system-ui, sans-serif;
+  margin: 24px;
+}
+
+.wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 20px;
+}
+
+h2 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 0;
+}
+
+button {
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #f7f7f7;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border-bottom: 1px solid #eee;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  font-size: 12px;
+  color: #666;
+}
+
+.muted {
+  color: #666;
+  font-size: 12px;
+  margin: 0 0 10px;
+}
+
+.pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.list {
+  max-height: 60vh;
+  overflow: auto;
+  padding-right: 6px;
+}
