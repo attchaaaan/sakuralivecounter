@@ -195,3 +195,29 @@ th {
   padding: 8px 10px;
   white-space: nowrap;
 }
+
+.participation {
+  margin: 10px 0 12px;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  background: #fafafa;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.participation .row {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.participation .label {
+  color: #333;
+}
+
+.participation .value {
+  color: #666;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}

@@ -15,20 +15,26 @@ const songs = {
 // ライブ：setlist は songId の配列にする（表記揺れ対策）
 const lives = [
   {
-    id: "2024-01-01_tokyo",
+    id: "20240101",
     name: "2024/01/01 東京ドーム",
     setlist: ["s_over", "s_a"],
   },
   {
-    id: "2024-03-10_osaka",
+    id: "20240310",
     name: "2024/03/10 大阪城ホール",
     setlist: ["s_over", "s_b"],
   },
   {
-    id: "2024-06-20_nagoya",
+    id: "20240620",
     name: "2024/06/20 名古屋",
     setlist: ["s_c", "s_e"],
   },
+  {
+    id: "20230620",
+    name: "2023/06/20 名古屋",
+    setlist: ["s_c", "s_e"],
+  },
+
 ];
 
 // =====================
@@ -42,6 +48,7 @@ const setlistModal = document.getElementById("setlistModal");
 const modalTitle = document.getElementById("modalTitle");
 const modalSetlist = document.getElementById("modalSetlist");
 const modalCloseBtn = document.getElementById("modalCloseBtn");
+const participationEl = document.getElementById("participation");
 
 // =====================
 // 3) ライブ一覧を描画
@@ -88,6 +95,49 @@ function update() {
   ).map((i) => i.value);
 
   const selectedLives = lives.filter((l) => checkedIds.includes(l.id));
+
+    // ===== 参加率（全体＋年別） =====
+  const totalLives = lives.length;                 // 開催数（登録しているライブ数）
+  const participatedLives = selectedLives.length;  // 参加数（チェック数）
+
+  // 年別の開催数/参加数
+  const byYear = new Map(); // year -> { total, participated }
+
+  for (const live of lives) {
+    const y = getYearFromLive(live);
+    const cur = byYear.get(y) ?? { total: 0, participated: 0 };
+    cur.total += 1;
+    byYear.set(y, cur);
+  }
+
+  for (const live of selectedLives) {
+    const y = getYearFromLive(live);
+    const cur = byYear.get(y) ?? { total: 0, participated: 0 };
+    cur.participated += 1;
+    byYear.set(y, cur);
+  }
+
+  // 表示用：unknownは最後、年は降順
+  const yearRows = Array.from(byYear.entries())
+    .sort((a, b) => {
+      if (a[0] === "unknown") return 1;
+      if (b[0] === "unknown") return -1;
+      return Number(b[0]) - Number(a[0]);
+    });
+
+  const allLine = `all: ${participatedLives} / ${totalLives} (${formatRate(participatedLives, totalLives)} %)`;
+
+  const lines = [
+    `<div class="row"><div class="label">参加率</div><div class="value">${escapeHtml(allLine)}</div></div>`,
+    ...yearRows
+      .filter(([year]) => year !== "unknown") // unknownも出したければこの行を消す
+      .map(([year, v]) => {
+        const line = `${year}: ${v.participated} / ${v.total} (${formatRate(v.participated, v.total)} %)`;
+        return `<div class="row"><div class="label">${escapeHtml(year)}</div><div class="value">${escapeHtml(line)}</div></div>`;
+      }),
+  ];
+
+  participationEl.innerHTML = lines.join("");
 
   // songId -> count
   const counts = new Map();
@@ -146,6 +196,12 @@ function escapeHtml(str) {
   });
 }
 
+// パーセンテージ表示を作る（小数1桁）
+function formatRate(part, total) {
+  if (!total) return "0.0";
+  return ((part / total) * 100).toFixed(1);
+}
+
 function openSetlistModal(live) {
   modalTitle.textContent = `${live.name} のセットリスト`;
 
@@ -174,6 +230,11 @@ modalCloseBtn.addEventListener("click", () => setlistModal.close());
 setlistModal.addEventListener("close", () => {
   modalSetlist.innerHTML = "";
 });
+
+function getYearFromLive(live) {
+      // id は "YYYYMMDD" 前提
+  return String(live.id).slice(0, 4);
+}
 
 
 // 初期化
