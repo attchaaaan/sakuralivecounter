@@ -3443,6 +3443,10 @@ const modalTitle = document.getElementById("modalTitle");
 const modalSetlist = document.getElementById("modalSetlist");
 const modalCloseBtn = document.getElementById("modalCloseBtn");
 const participationEl = document.getElementById("participation");
+
+// ソート順序のグローバル状態
+let sortBy = "count";     // "count" または "date"
+let sortOrder = "desc";   // "asc" または "desc"
  
 
 // =====================
@@ -3561,11 +3565,27 @@ function update() {
     }
   }
 
-  // 回数降順 → 同数は曲名昇順
+  // ソート：sortBy と sortOrder に応じて切り替え
   const rows = Array.from(counts.entries()).sort((a, b) => {
-    const countDiff = b[1] - a[1];
-    if (countDiff !== 0) return countDiff;
-    return songs[a[0]].name.localeCompare(songs[b[0]].name, "ja");
+    let compareResult = 0;
+    
+    if (sortBy === "date") {
+      // 日付でソート
+      const dateA = lastDate.get(a[0]) ?? "";
+      const dateB = lastDate.get(b[0]) ?? "";
+      compareResult = dateB.localeCompare(dateA); // 新しい順がデフォルト
+    } else {
+      // 回数でソート
+      compareResult = b[1] - a[1]; // 多い順がデフォルト
+    }
+    
+    // 主キーで差がない場合は曲名昇順
+    if (compareResult === 0) {
+      return songs[a[0]].name.localeCompare(songs[b[0]].name, "ja");
+    }
+    
+    // sortOrderが"asc"なら反転
+    return sortOrder === "asc" ? -compareResult : compareResult;
   });
 
   resultBodyEl.innerHTML = rows
@@ -3669,6 +3689,49 @@ function switchTab(tabName) {
   document.getElementById(`${tabName}-pane`).classList.add("active");
 }
 
+// ドロップダウンメニューのソート機能
+const sortDropdownBtn = document.getElementById("sortDropdownBtn");
+const sortDropdown = document.getElementById("sortDropdown");
+const sortLabel = document.getElementById("sortLabel");
+
+function updateSortLabel() {
+  const labels = {
+    "count-desc": "回数（多い順）",
+    "count-asc": "回数（少ない順）",
+    "date-desc": "最後に見た日付（新しい順）",
+    "date-asc": "最後に見た日付（古い順）"
+  };
+  const key = `${sortBy}-${sortOrder}`;
+  sortLabel.textContent = labels[key] || "回数（多い順）";
+}
+
+// ドロップダウンボタンのクリック（開閉）
+sortDropdownBtn.addEventListener("click", () => {
+  sortDropdown.classList.toggle("hidden");
+});
+
+// ドロップダウンメニュー内の選択肢
+document.querySelectorAll("#sortDropdown button").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    const [type, order] = e.target.dataset.sort.split("-");
+    sortBy = type;
+    sortOrder = order;
+    updateSortLabel();
+    sortDropdown.classList.add("hidden");
+    update();
+  });
+});
+
+// ドロップダウン外をクリックした時に閉じる
+document.addEventListener("click", (e) => {
+  const isDropdownBtn = e.target === sortDropdownBtn || sortDropdownBtn.contains(e.target);
+  const isDropdownMenu = sortDropdown.contains(e.target);
+  
+  if (!isDropdownBtn && !isDropdownMenu) {
+    sortDropdown.classList.add("hidden");
+  }
+});
+
 // タブボタンのイベントリスナー
 document.querySelectorAll(".tab-btn").forEach((btn) => {
   btn.addEventListener("click", (e) => {
@@ -3678,4 +3741,5 @@ document.querySelectorAll(".tab-btn").forEach((btn) => {
 
 // 初期化
 renderLiveList();
+updateSortLabel();
 update();
