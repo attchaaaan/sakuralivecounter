@@ -26,17 +26,19 @@
     <div class="card tab-pane" id="result-pane">
       <h2>集計結果 <span id="summary" class="pill"></span></h2>
       <div id="participation" class="participation"></div>
-      
-      <!-- 並び替えドロップダウン -->
-      <div class="sort-dropdown-wrapper">
-        <button id="sortDropdownBtn" type="button" class="sort-dropdown-btn">
-          並び替え: <span id="sortLabel">回数（多い順）</span>
-        </button>
-        <div id="sortDropdown" class="sort-dropdown-menu hidden">
-          <button type="button" data-sort="count-desc">回数（多い順）</button>
-          <button type="button" data-sort="count-asc">回数（少ない順）</button>
-          <button type="button" data-sort="date-desc">最後に見た日付（新しい順）</button>
-          <button type="button" data-sort="date-asc">最後に見た日付（古い順）</button>
+      <div class="result-controls" role="tablist" aria-label="曲表示切り替え">
+        <button id="seenSongsTab" type="button" class="song-view-tab active" data-song-view="seen" aria-selected="true">見たことある曲</button>
+        <button id="unseenSongsTab" type="button" class="song-view-tab" data-song-view="unseen" aria-selected="false">見たことない曲</button>
+        <div class="sort-dropdown-wrapper">
+          <button id="sortDropdownBtn" type="button" class="sort-dropdown-btn">
+            並び替え: <span id="sortLabel">回数（多い順）</span>
+          </button>
+          <div id="sortDropdown" class="sort-dropdown-menu hidden">
+            <button type="button" data-sort="count-desc">回数（多い順）</button>
+            <button type="button" data-sort="count-asc">回数（少ない順）</button>
+            <button type="button" data-sort="date-desc">最後に見た日付（新しい順）</button>
+            <button type="button" data-sort="date-asc">最後に見た日付（古い順）</button>
+          </div>
         </div>
       </div>
       
@@ -46,7 +48,7 @@
           <tr>
             <th>曲名</th>
             <th>回数</th>
-            <th>最後に見た日付</th>
+            <th id="lastDateHeader">最後に見た日付</th>
           </tr>
         </thead>
         <tbody id="resultBody"></tbody>

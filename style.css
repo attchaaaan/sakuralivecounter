@@ -184,13 +184,37 @@ th {
 }
 
 /* ===== ドロップダウンメニュー ===== */
+.result-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.song-view-tab {
+  margin-top: 0;
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+.song-view-tab.active {
+  border-color: #333;
+  background: #f0f0f0;
+}
+
 .sort-dropdown-wrapper {
   position: relative;
-  margin-bottom: 12px;
   width: fit-content;
 }
 
+.result-controls .sort-dropdown-wrapper {
+  margin-left: auto;
+}
+
 .sort-dropdown-btn {
+  margin-top: 0;
   padding: 8px 12px;
   border: 1px solid #ddd;
   border-radius: 6px;

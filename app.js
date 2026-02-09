@@ -3436,6 +3436,7 @@ const lives = [
 // =====================
 const liveListEl = document.getElementById("liveList");
 const resultBodyEl = document.getElementById("resultBody");
+const lastDateHeaderEl = document.getElementById("lastDateHeader");
 const summaryEl = document.getElementById("summary");
 const clearBtn = document.getElementById("clearBtn");
 const setlistModal = document.getElementById("setlistModal");
@@ -3566,39 +3567,54 @@ function update() {
   }
 
   // ソート：sortBy と sortOrder に応じて切り替え
-  const rows = Array.from(counts.entries()).sort((a, b) => {
-    let compareResult = 0;
-    
-    if (sortBy === "date") {
-      // 日付でソート
-      const dateA = lastDate.get(a[0]) ?? "";
-      const dateB = lastDate.get(b[0]) ?? "";
-      compareResult = dateB.localeCompare(dateA); // 新しい順がデフォルト
-    } else {
-      // 回数でソート
-      compareResult = b[1] - a[1]; // 多い順がデフォルト
-    }
-    
-    // 主キーで差がない場合は曲名昇順
-    if (compareResult === 0) {
-      return songs[a[0]].name.localeCompare(songs[b[0]].name, "ja");
-    }
-    
-    // sortOrderが"asc"なら反転
-    return sortOrder === "asc" ? -compareResult : compareResult;
-  });
+  const allSongIds = Object.keys(songs).map(Number);
+  const rows = songViewMode === "unseen"
+    ? allSongIds
+        .filter((songId) => !counts.has(songId))
+        .sort((a, b) => songs[a].name.localeCompare(songs[b].name, "ja"))
+        .map((songId) => [songId, 0])
+    : Array.from(counts.entries()).sort((a, b) => {
+        let compareResult = 0;
+        
+        if (sortBy === "date") {
+          // 日付でソート
+          const dateA = lastDate.get(a[0]) ?? "";
+          const dateB = lastDate.get(b[0]) ?? "";
+          compareResult = dateB.localeCompare(dateA); // 新しい順がデフォルト
+        } else {
+          // 回数でソート
+          compareResult = b[1] - a[1]; // 多い順がデフォルト
+        }
+        
+        // 主キーで差がない場合は曲名昇順
+        if (compareResult === 0) {
+          return songs[a[0]].name.localeCompare(songs[b[0]].name, "ja");
+        }
+        
+        // sortOrderが"asc"なら反転
+        return sortOrder === "asc" ? -compareResult : compareResult;
+      });
+
+  if (lastDateHeaderEl) {
+    lastDateHeaderEl.style.display = songViewMode === "unseen" ? "none" : "";
+  }
 
   resultBodyEl.innerHTML = rows
     .map(([songId, n]) => {
       const name = songs[songId].name;
       const date = lastDate.get(songId) ?? "";
-      return `<tr><td>${escapeHtml(name)}</td><td>${n}</td><td>${escapeHtml(date)}</td></tr>`;
+      const dateCell = songViewMode === "unseen" ? "" : `<td>${escapeHtml(date)}</td>`;
+      return `<tr><td>${escapeHtml(name)}</td><td>${n}</td>${dateCell}</tr>`;
     })
     .join("");
 
   const totalSongs = rows.reduce((sum, [, n]) => sum + n, 0);
 
-  summaryEl.textContent = `ライブ${selectedLives.length}件 / 総${totalSongs}曲 / ユニーク${rows.length}曲`;
+  if (songViewMode === "unseen") {
+    summaryEl.textContent = `ライブ${selectedLives.length}件 / 見たことない曲${rows.length}曲`;
+  } else {
+    summaryEl.textContent = `ライブ${selectedLives.length}件 / 総${totalSongs}曲 / ユニーク${rows.length}曲`;
+  }
 }
 
 // =====================
@@ -3692,7 +3708,11 @@ function switchTab(tabName) {
 // ドロップダウンメニューのソート機能
 const sortDropdownBtn = document.getElementById("sortDropdownBtn");
 const sortDropdown = document.getElementById("sortDropdown");
+const sortDropdownWrapper = document.querySelector(".sort-dropdown-wrapper");
 const sortLabel = document.getElementById("sortLabel");
+const seenSongsTab = document.getElementById("seenSongsTab");
+const unseenSongsTab = document.getElementById("unseenSongsTab");
+let songViewMode = "seen";
 
 function updateSortLabel() {
   const labels = {
@@ -3705,10 +3725,41 @@ function updateSortLabel() {
   sortLabel.textContent = labels[key] || "回数（多い順）";
 }
 
+function updateSongViewTabs() {
+  if (seenSongsTab) {
+    seenSongsTab.classList.toggle("active", songViewMode === "seen");
+    seenSongsTab.setAttribute("aria-selected", songViewMode === "seen" ? "true" : "false");
+  }
+  if (unseenSongsTab) {
+    unseenSongsTab.classList.toggle("active", songViewMode === "unseen");
+    unseenSongsTab.setAttribute("aria-selected", songViewMode === "unseen" ? "true" : "false");
+  }
+  if (sortDropdownWrapper) {
+    sortDropdownWrapper.style.display = songViewMode === "unseen" ? "none" : "";
+  }
+  sortDropdown.classList.add("hidden");
+}
+
 // ドロップダウンボタンのクリック（開閉）
 sortDropdownBtn.addEventListener("click", () => {
   sortDropdown.classList.toggle("hidden");
 });
+
+if (seenSongsTab) {
+  seenSongsTab.addEventListener("click", () => {
+    songViewMode = "seen";
+    updateSongViewTabs();
+    update();
+  });
+}
+
+if (unseenSongsTab) {
+  unseenSongsTab.addEventListener("click", () => {
+    songViewMode = "unseen";
+    updateSongViewTabs();
+    update();
+  });
+}
 
 // ドロップダウンメニュー内の選択肢
 document.querySelectorAll("#sortDropdown button").forEach((btn) => {
@@ -3742,4 +3793,5 @@ document.querySelectorAll(".tab-btn").forEach((btn) => {
 // 初期化
 renderLiveList();
 updateSortLabel();
+updateSongViewTabs();
 update();
