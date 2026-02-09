@@ -3712,6 +3712,7 @@ const sortDropdownWrapper = document.querySelector(".sort-dropdown-wrapper");
 const sortLabel = document.getElementById("sortLabel");
 const seenSongsTab = document.getElementById("seenSongsTab");
 const unseenSongsTab = document.getElementById("unseenSongsTab");
+const songViewToggleBtn = document.getElementById("songViewToggleBtn");
 let songViewMode = "seen";
 
 function updateSortLabel() {
@@ -3733,6 +3734,9 @@ function updateSongViewTabs() {
   if (unseenSongsTab) {
     unseenSongsTab.classList.toggle("active", songViewMode === "unseen");
     unseenSongsTab.setAttribute("aria-selected", songViewMode === "unseen" ? "true" : "false");
+  }
+  if (songViewToggleBtn) {
+    songViewToggleBtn.textContent = songViewMode === "seen" ? "見たことない曲を表示" : "見たことある曲を表示";
   }
   if (sortDropdownWrapper) {
     sortDropdownWrapper.style.display = songViewMode === "unseen" ? "none" : "";
@@ -3756,6 +3760,14 @@ if (seenSongsTab) {
 if (unseenSongsTab) {
   unseenSongsTab.addEventListener("click", () => {
     songViewMode = "unseen";
+    updateSongViewTabs();
+    update();
+  });
+}
+
+if (songViewToggleBtn) {
+  songViewToggleBtn.addEventListener("click", () => {
+    songViewMode = songViewMode === "seen" ? "unseen" : "seen";
     updateSongViewTabs();
     update();
   });

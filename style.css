@@ -204,6 +204,13 @@ th {
   background: #f0f0f0;
 }
 
+.song-view-toggle-btn {
+  display: none;
+  margin-top: 0;
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
 .sort-dropdown-wrapper {
   position: relative;
   width: fit-content;
@@ -211,6 +218,16 @@ th {
 
 .result-controls .sort-dropdown-wrapper {
   margin-left: auto;
+}
+
+@media (max-width: 640px) {
+  .song-view-tab {
+    display: none;
+  }
+
+  .song-view-toggle-btn {
+    display: inline-flex;
+  }
 }
 
 .sort-dropdown-btn {
